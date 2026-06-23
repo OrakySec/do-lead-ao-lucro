@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   landing-page:
-    # Substitua abaixo com o SEU nome de usuário no GitHub e o nome que deu ao repositório
-    image: ghcr.io/SEU_USUARIO_GITHUB/NOME_DO_REPOSITORIO:latest
+    image: ghcr.io/orakysec/do-lead-ao-lucro:latest
     container_name: do-lead-ao-lucro
     restart: always
     networks:

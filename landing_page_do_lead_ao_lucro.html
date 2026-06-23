@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Do Lead ao Lucro | Imersão Presencial com Wanderson Buarque</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Premium Fonts: Clash Display (Headings) & Satoshi (Body) -->
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Satoshi', 'sans-serif'],
+                        heading: ['"Clash Display"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#2F3130',
+                            card: '#3D403E',
+                            primary: '#85C19E',    /* Sálvia Vibrante / Neon */
+                            primaryHover: '#6EA887',
+                            light: '#F4F5F4',
+                            textMuted: '#A3ACA7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base Dark Background */
+        html, body {
+            background-color: #2F3130;
+            color: #F4F5F4;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Fixed Cinematic Mountain Background */
+        .mountain-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 130vh;
+            background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center top;
+            filter: grayscale(30%) contrast(1.3) saturate(1.2);
+            opacity: 0.55;
+            z-index: -2;
+            -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        }
+
+        /* Dark Overlay to make text readable using exact PIKO Dark color */
+        .mountain-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 130vh;
+            background: linear-gradient(to bottom, rgba(47, 49, 48, 0.75) 0%, rgba(47, 49, 48, 1) 100%);
+            z-index: -1;
+        }
+
+        /* Ultimate Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Dynamic Glows behind elements with Mouse Tracking */
+        .glow-orb-primary {
+            position: absolute;
+            background: radial-gradient(circle, rgba(133,193,158,0.5) 0%, rgba(133,193,158,0) 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 0;
+            margin-left: var(--mouse-x, 0px);
+            margin-top: var(--mouse-y, 0px);
+            transition: margin 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* High-Conversion Button with PIKO colors */
+        .btn-glow {
+            background: linear-gradient(135deg, #85C19E 0%, #5B9B78 100%);
+            color: #111;
+            box-shadow: 0 0 25px rgba(133,193,158,0.6), inset 0 1px 0 rgba(255,255,255,0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 45px rgba(133,193,158,0.8), inset 0 1px 0 rgba(255,255,255,0.8);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        /* Glass Placeholder for Images */
+        .img-glass {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(138, 168, 153, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #85C19E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased bg-brand-dark">
+<div class="relative w-full max-w-[100vw] overflow-x-hidden">
+    <!-- Fixed Backgrounds -->
+    <div class="mountain-bg"></div>
+    <div class="mountain-overlay"></div>
+
+    <!-- HEADER (Glass) -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-panel border-b-0 rounded-none bg-brand-dark/20 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto flex items-center justify-between py-3 px-4 sm:px-8">
+            <!-- Logo PIKO -->
+            <div class="flex items-center justify-start h-10 sm:h-12 w-32 md:w-48">
+                <img src="./PIKO 12.png" alt="PIKO Logo" class="w-full h-full object-contain object-left scale-150 origin-left drop-shadow-md" onerror="this.outerHTML='<span class=\'font-heading font-bold text-xl tracking-widest text-white\'>PIKO</span>'">
+            </div>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-brand-light/90">
+                <a href="#metodo" class="hover:text-brand-primary hover:text-shadow-glow transition-all">Método PIKO</a>
+                <a href="#palestrante" class="hover:text-brand-primary transition-all">O Estrategista</a>
+                <a href="#local" class="hover:text-brand-primary transition-all">Experiência</a>
+            </nav>
+
+            <div>
+                <a href="#inscricao" class="btn-glow px-4 py-2 sm:px-6 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm tracking-wide">
+                    Aplicar para Vaga
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-24 px-4 overflow-hidden min-h-[90vh] flex items-center justify-center">
+        <!-- Giant Glowing Orb (Halo Effect behind text) -->
+        <div class="glow-orb-primary w-[400px] h-[400px] md:w-[700px] md:h-[700px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-60"></div>
+        
+        <div class="max-w-5xl mx-auto relative z-10 w-full text-center reveal">
+            
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 glass-panel px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold text-brand-primary tracking-widest uppercase mb-8 md:mb-10 shadow-lg border border-brand-primary/20 backdrop-blur-xl">
+                <span class="w-2 h-2 rounded-full bg-brand-primary animate-pulse shadow-[0_0_8px_#85C19E]"></span> Imersão Exclusiva • Recife
+            </div>
+            
+            <!-- Headline -->
+            <h1 class="font-heading text-[32px] min-[400px]:text-4xl sm:text-5xl md:text-7xl lg:text-[84px] font-extrabold leading-[1.05] tracking-tight mb-6 sm:mb-8 text-white drop-shadow-2xl">
+                Transforme cliques em <br class="hidden sm:block"/>
+                <span class="text-gradient break-words">faturamento real.</span>
+            </h1>
+            
+            <!-- Subheadline -->
+            <p class="text-lg sm:text-xl md:text-2xl text-brand-light/80 mb-12 leading-relaxed max-w-3xl mx-auto font-light drop-shadow-lg">
+                Pare de queimar investimento com leads curiosos. Domine a engrenagem oculta usada para escalar negócios de alto padrão direto para o lucro líquido no caixa.
+            </p>
+
+            <!-- CTA -->
+            <div class="flex flex-col items-center justify-center gap-4 mb-16">
+                <a href="#inscricao" class="btn-glow w-full sm:w-auto px-12 py-5 rounded-full font-extrabold text-sm sm:text-base tracking-widest uppercase flex items-center justify-center gap-3">
+                    Garantir Meu Ingresso <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <p class="text-xs text-brand-light/50 font-mono tracking-widest uppercase flex items-center gap-2 mt-2 mb-4">
+                    <i class="fa-solid fa-lock text-[10px]"></i> Apenas 30 vagas exclusivas
+                </p>
+            </div>
+
+            <!-- Metadata Box -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-16 reveal">
+                <div class="glass-panel p-5 rounded-2xl flex items-center gap-5 text-left border-white/5 hover:border-brand-primary/30 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary text-2xl shrink-0">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-brand-light/50 uppercase tracking-widest font-bold mb-1">Quando?</p>
+                        <p class="font-heading font-extrabold text-white text-lg">24 de Julho</p>
+                        <p class="text-xs text-brand-light/60">(Sexta-feira)</p>
+                    </div>
+                </div>
+                
+                <div class="glass-panel p-5 rounded-2xl flex items-center gap-5 text-left border-white/5 hover:border-brand-primary/30 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary text-2xl shrink-0">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-brand-light/50 uppercase tracking-widest font-bold mb-1">Onde?</p>
+                        <p class="font-heading font-extrabold text-white text-lg">Coco Bambu</p>
+                        <p class="text-xs text-brand-light/60">Derby, Recife</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-2xl flex items-center gap-5 text-left sm:col-span-2 md:col-span-1 border-white/5 hover:border-brand-primary/30 transition-colors">
+                    <div class="w-14 h-14 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary text-2xl shrink-0">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-brand-light/50 uppercase tracking-widest font-bold mb-1">Formato</p>
+                        <p class="font-heading font-extrabold text-white text-lg">Presencial</p>
+                        <p class="text-xs text-brand-light/60">Turma Intimista</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COUNTDOWN TIMER -->
+            <div class="max-w-3xl mx-auto glass-panel border border-brand-primary/20 p-8 rounded-[2rem] reveal shadow-[0_0_40px_rgba(133,193,158,0.1)] relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-primary/5 via-transparent to-brand-primary/5"></div>
+                <p class="text-xs uppercase tracking-widest text-brand-primary font-bold mb-6 relative z-10">O tempo está correndo. Vagas extremamente limitadas!</p>
+                <div class="grid grid-cols-4 gap-3 sm:gap-6 relative z-10">
+                    <div class="bg-black/40 border border-white/5 p-4 sm:p-6 rounded-2xl backdrop-blur-md">
+                        <span id="days" class="block font-heading text-3xl sm:text-5xl font-extrabold text-white mb-1">00</span>
+                        <span class="text-[10px] sm:text-xs text-brand-light/50 uppercase tracking-widest font-bold">Dias</span>
+                    </div>
+                    <div class="bg-black/40 border border-white/5 p-4 sm:p-6 rounded-2xl backdrop-blur-md">
+                        <span id="hours" class="block font-heading text-3xl sm:text-5xl font-extrabold text-white mb-1">00</span>
+                        <span class="text-[10px] sm:text-xs text-brand-light/50 uppercase tracking-widest font-bold">Horas</span>
+                    </div>
+                    <div class="bg-black/40 border border-white/5 p-4 sm:p-6 rounded-2xl backdrop-blur-md">
+                        <span id="minutes" class="block font-heading text-3xl sm:text-5xl font-extrabold text-white mb-1">00</span>
+                        <span class="text-[10px] sm:text-xs text-brand-light/50 uppercase tracking-widest font-bold">Minutos</span>
+                    </div>
+                    <div class="bg-black/40 border border-white/5 p-4 sm:p-6 rounded-2xl backdrop-blur-md">
+                        <span id="seconds" class="block font-heading text-3xl sm:text-5xl font-extrabold text-white mb-1">00</span>
+                        <span class="text-[10px] sm:text-xs text-brand-light/50 uppercase tracking-widest font-bold">Segundos</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- PROBLEM & SOLUTION SECTION -->
+    <section id="sobre" class="py-24 px-4 relative overflow-hidden">
+        <div class="glow-orb-primary w-[800px] h-[400px] top-1/2 left-0 -translate-y-1/2 opacity-30 pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <span class="text-xs uppercase tracking-widest text-brand-primary font-bold mb-4 block">A Realidade</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-extrabold mb-6 text-white">
+                    Seu investimento em anúncios está realmente virando <span class="text-brand-primary">lucro</span>?
+                </h2>
+                <p class="text-brand-light/70 text-lg leading-relaxed font-light">
+                    Muitas agências e profissionais focam apenas em "likes", "cliques" e "leads". Mas lead sem processo comercial estruturado é apenas custo. No dia 24/07 você vai entender a engrenagem que fecha a conta.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Pain Point 1 -->
+                <div class="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:border-brand-primary/40 transition-colors duration-500 reveal">
+                    <div class="absolute -right-4 -bottom-4 text-white/5 text-8xl font-black group-hover:scale-110 transition-transform duration-500">01</div>
+                    <div class="w-14 h-14 rounded-2xl bg-brand-primary/10 text-brand-primary border border-brand-primary/20 flex items-center justify-center text-2xl mb-8 group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid fa-filter"></i>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold mb-4 text-white">Fim do Lead Curioso</h3>
+                    <p class="text-brand-light/70 text-sm leading-relaxed font-light">
+                        Aprenda a aplicar filtros estratégicos nos seus anúncios para repelir curiosos e atrair tomadores de decisão prontos para comprar de você.
+                    </p>
+                </div>
+
+                <!-- Pain Point 2 -->
+                <div class="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:border-brand-primary/40 transition-colors duration-500 reveal" style="transition-delay: 150ms;">
+                    <div class="absolute -right-4 -bottom-4 text-white/5 text-8xl font-black group-hover:scale-110 transition-transform duration-500">02</div>
+                    <div class="w-14 h-14 rounded-2xl bg-brand-primary/10 text-brand-primary border border-brand-primary/20 flex items-center justify-center text-2xl mb-8 group-hover:scale-110 transition-transform duration-500 shadow-[0_0_15px_rgba(133,193,158,0.2)]">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold mb-4 text-white">A Máquina de Vendas</h3>
+                    <p class="text-brand-light/70 text-sm leading-relaxed font-light">
+                        O tráfego é apenas o combustível. Vamos desenhar a engrenagem perfeita que acontece nos bastidores do seu WhatsApp e CRM após o clique do anúncio.
+                    </p>
+                </div>
+
+                <!-- Pain Point 3 -->
+                <div class="glass-panel p-10 rounded-3xl relative overflow-hidden group hover:border-brand-primary/40 transition-colors duration-500 reveal" style="transition-delay: 300ms;">
+                    <div class="absolute -right-4 -bottom-4 text-white/5 text-8xl font-black group-hover:scale-110 transition-transform duration-500">03</div>
+                    <div class="w-14 h-14 rounded-2xl bg-brand-primary/10 text-brand-primary border border-brand-primary/20 flex items-center justify-center text-2xl mb-8 group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold mb-4 text-white">Networking de Alto Nível</h3>
+                    <p class="text-brand-light/70 text-sm leading-relaxed font-light">
+                        Você estará no Coco Bambu Derby, cercado de empresários de diversos segmentos de Recife. Parcerias estratégicas nascem em ambientes seletos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPEAKER SECTION -->
+    <section id="palestrante" class="py-32 px-4 relative overflow-hidden">
+        <div class="glow-orb-primary w-[700px] h-[700px] top-1/2 right-0 -translate-y-1/2 opacity-40"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="glass-panel rounded-[3rem] p-6 sm:p-8 md:p-16 reveal">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
+                    
+                    <!-- Photos Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-4">
+                        <div class="hidden sm:flex flex-col gap-4">
+                            <!-- Photo 1 -->
+                            <div class="img-glass rounded-2xl aspect-[3/4] w-full shadow-lg overflow-hidden relative group">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/50 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <img src="./palestrante_1.jpg" alt="Wanderson Buarque" class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105">
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-4 pt-0 sm:pt-12">
+                            <!-- Photo 2 -->
+                            <div class="img-glass rounded-2xl aspect-[4/3] w-full shadow-lg overflow-hidden relative group">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/50 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <img src="./palestrante_2.jpg" alt="Wanderson Buarque" class="w-full h-full object-cover object-[center_15%] grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105">
+                            </div>
+                            <!-- Small Quote Card -->
+                            <div class="glass-panel p-6 rounded-2xl border-white/10">
+                                <i class="fa-solid fa-quote-left text-brand-primary text-2xl mb-3 opacity-50"></i>
+                                <p class="text-brand-light/90 italic font-light relative z-10 pt-4 pl-2">
+                                    "A verdadeira escala não vem de mais cliques, mas de um funil arquitetado para gerar lucro previsível."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-brand-primary font-bold mb-4 block flex items-center gap-2">
+                            <span class="w-6 h-[1px] bg-brand-primary inline-block"></span> O Estrategista
+                        </span>
+                        <h2 class="font-heading text-4xl sm:text-5xl font-extrabold mb-8 leading-tight">
+                            Wanderson Buarque
+                        </h2>
+                        
+                        <div class="space-y-6 text-brand-light/70 font-light leading-relaxed text-lg">
+                            <p>
+                                Formado em Marketing e com MBA em Gestão de Negócios pela USP/Esalq, Wanderson é o arquiteto por trás do método PIKO, desenhando jornadas de vendas implacáveis para negócios de alto padrão.
+                            </p>
+                            <p>
+                                Ele não foca em curtidas ou métricas de vaidade, mas sim na engenharia silenciosa que ocorre após o clique, transformando anúncios de tráfego frio em <strong class="text-white font-medium">lucro líquido no caixa</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Big Stats -->
+                        <div class="grid grid-cols-2 gap-4 sm:gap-8 mt-12 pt-10 border-t border-white/10">
+                            <div>
+                                <span class="block font-heading text-3xl sm:text-4xl font-extrabold text-brand-primary drop-shadow-[0_0_15px_rgba(133,193,158,0.5)]">+R$ 1M</span>
+                                <span class="text-[10px] sm:text-xs text-brand-light/50 uppercase tracking-widest mt-2 block">Faturamento Gerado</span>
+                            </div>
+                            <div>
+                                <span class="block font-heading text-3xl sm:text-4xl font-extrabold text-white">+100k</span>
+                                <span class="text-[10px] sm:text-xs text-brand-light/50 uppercase tracking-widest mt-2 block">Geridos em Mídia</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- VENUE SECTION -->
+    <section id="local" class="py-32 px-4 relative overflow-hidden">
+        <div class="glow-orb-primary w-[600px] h-[600px] top-1/2 left-0 -translate-y-1/2 opacity-20 pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <!-- Content -->
+                <div class="lg:col-span-6 reveal">
+                    <span class="text-xs uppercase tracking-widest text-brand-primary font-bold mb-4 block flex items-center gap-2">
+                        <span class="w-6 h-[1px] bg-brand-primary inline-block"></span> Localizado no coração de Recife
+                    </span>
+                    <h2 class="font-heading text-4xl sm:text-5xl font-extrabold mb-8 text-white">
+                        Coco Bambu Derby
+                    </h2>
+                    <p class="text-brand-light/70 text-lg mb-6 leading-relaxed font-light">
+                        Um evento desse calibre exige um cenário à altura. O <strong class="text-white font-medium">Coco Bambu Derby</strong> oferece uma infraestrutura impecável, confortável e propícia para debates, palestras e conexões estratégicas de alto escalão.
+                    </p>
+                    <p class="text-brand-light/70 text-lg mb-10 leading-relaxed font-light">
+                        Desfrute de uma experiência gastronômica incrível enquanto expande sua rede de contatos com investidores, médicos, diretores, corretores e empreendedores influentes da região.
+                    </p>
+
+                    <div class="space-y-4 mb-10">
+                        <div class="flex items-center gap-4 glass-panel p-4 rounded-2xl border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <span class="text-white text-sm font-medium">Rua Jener de Souza, 410 - Derby, Recife - PE</span>
+                        </div>
+                        <div class="flex items-center gap-4 glass-panel p-4 rounded-2xl border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary shrink-0">
+                                <i class="fa-solid fa-square-parking"></i>
+                            </div>
+                            <span class="text-white text-sm font-medium">Serviço de manobrista e estacionamento no local</span>
+                        </div>
+                        <div class="flex items-center gap-4 glass-panel p-4 rounded-2xl border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary shrink-0">
+                                <i class="fa-solid fa-champagne-glasses"></i>
+                            </div>
+                            <span class="text-white text-sm font-medium">Coquetel de Networking premium incluso</span>
+                        </div>
+                    </div>
+
+                    <!-- Open Maps Button -->
+                    <div>
+                        <a href="https://maps.google.com/?q=Coco+Bambu+Derby+Recife" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 text-brand-primary hover:text-white font-bold tracking-wide transition-all uppercase text-xs">
+                            Como chegar via Google Maps <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mock Venue / Map Visual Representation -->
+                <div class="lg:col-span-6 reveal" style="transition-delay: 200ms;">
+                    <div class="glass-panel p-4 rounded-[2.5rem] shadow-2xl relative overflow-hidden group hover:border-brand-primary/30 transition-colors duration-500">
+                        <div class="bg-black/60 rounded-[2rem] h-[400px] w-full relative overflow-hidden flex flex-col justify-between p-8 border border-white/5">
+                            <!-- Geometric abstract map backdrop -->
+                            <div class="absolute inset-0 opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity duration-500">
+                                <svg width="100%" height="100%">
+                                    <line x1="10%" y1="0%" x2="10%" y2="100%" stroke="#85C19E" stroke-width="2"/>
+                                    <line x1="50%" y1="0%" x2="50%" y2="100%" stroke="#85C19E" stroke-width="2"/>
+                                    <line x1="85%" y1="0%" x2="85%" y2="100%" stroke="#85C19E" stroke-width="2"/>
+                                    <line x1="0%" y1="30%" x2="100%" y2="30%" stroke="#85C19E" stroke-width="2"/>
+                                    <line x1="0%" y1="70%" x2="100%" y2="70%" stroke="#85C19E" stroke-width="2"/>
+                                    <circle cx="50%" cy="50%" r="60" fill="none" stroke="#85C19E" stroke-width="4"/>
+                                    <circle cx="85%" cy="30%" r="30" fill="none" stroke="#85C19E" stroke-width="2"/>
+                                </svg>
+                            </div>
+
+                            <!-- Map Pins and Labels -->
+                            <div class="relative z-10 flex justify-between items-start">
+                                <span class="glass-panel text-[10px] font-bold tracking-widest uppercase border border-white/10 px-4 py-2 rounded-full text-brand-light/70 shadow-lg">Recife, PE</span>
+                                <span class="bg-brand-primary/20 text-brand-primary text-[10px] uppercase tracking-widest font-bold border border-brand-primary/30 px-4 py-2 rounded-full shadow-[0_0_15px_rgba(133,193,158,0.2)]"><i class="fa-solid fa-utensils mr-2"></i> Premium</span>
+                            </div>
+
+                            <div class="relative z-10 mx-auto text-center flex flex-col items-center">
+                                <!-- Ping Animation -->
+                                <div class="relative flex h-20 w-20 items-center justify-center mb-4">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-40"></span>
+                                    <div class="relative inline-flex rounded-full h-16 w-16 bg-brand-primary text-brand-dark items-center justify-center text-2xl shadow-[0_0_30px_rgba(133,193,158,0.5)]">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                </div>
+                                <h4 class="font-heading font-extrabold text-2xl text-white drop-shadow-md">Coco Bambu Derby</h4>
+                                <p class="text-sm text-brand-light/70 font-light mt-2">Ambiente climatizado, requintado e privativo</p>
+                            </div>
+
+                            <div class="relative z-10 glass-panel p-4 rounded-2xl flex items-center justify-between text-sm shadow-xl">
+                                <div>
+                                    <span class="block font-bold text-white">Rua Jener de Souza, 410</span>
+                                    <span class="text-brand-light/50 text-[10px] uppercase tracking-widest font-bold mt-1 block">Derby - Recife</span>
+                                </div>
+                                <i class="fa-solid fa-diamond-turn-right text-brand-primary text-2xl drop-shadow-[0_0_10px_rgba(133,193,158,0.3)]"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSCRICAO (FORM) SECTION -->
+    <section id="inscricao" class="py-24 px-4 relative overflow-hidden">
+        <div class="glow-orb-primary w-[500px] h-[500px] bottom-0 left-1/2 -translate-x-1/2 opacity-60"></div>
+        
+        <div class="max-w-4xl mx-auto relative z-10 reveal">
+            <div class="glass-panel rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row shadow-2xl shadow-brand-primary/10">
+                
+                <!-- Left Banner -->
+                <div class="md:w-5/12 bg-black/40 p-6 md:p-10 flex flex-col justify-between relative border-b md:border-b-0 md:border-r border-white/10">
+                    <div class="relative z-10">
+                        <span class="text-[10px] uppercase tracking-widest text-brand-primary font-bold mb-2 block animate-pulse">Vagas Limitadas</span>
+                        <h3 class="font-heading text-2xl sm:text-3xl font-extrabold text-white mb-4 sm:mb-6">Sua Aplicação</h3>
+                        <p class="text-brand-light/60 font-light text-sm leading-relaxed mb-8">
+                            Devido ao formato intimista no Coco Bambu, os assentos são restritos. Preencha seus dados para solicitar sua reserva.
+                        </p>
+                    </div>
+
+                    <!-- Speaker Mini Avatar Glass -->
+                    <div class="relative z-10 mt-auto flex items-center gap-4 glass-panel p-4 rounded-2xl border-white/10">
+                        <img src="./palestrante_3.png" alt="Wanderson Buarque" class="w-12 h-12 rounded-full object-cover shrink-0 border-2 border-brand-primary/50 shadow-lg shadow-brand-primary/20">
+                        <div>
+                            <p class="text-xs font-bold text-white">"Nos vemos no evento."</p>
+                            <p class="text-[10px] text-brand-primary uppercase tracking-widest mt-1">W. Buarque</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Form -->
+                <div class="md:w-7/12 p-6 md:p-10 bg-white/5">
+                    <form id="leadForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-brand-light/50 font-bold mb-2">Nome Completo</label>
+                                <input type="text" id="inputNome" required class="w-full bg-black/30 border border-white/10 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-white rounded-xl px-4 py-3.5 text-sm transition-all outline-none backdrop-blur-md">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-brand-light/50 font-bold mb-2">WhatsApp</label>
+                                <input type="tel" id="inputWhatsapp" required class="w-full bg-black/30 border border-white/10 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-white rounded-xl px-4 py-3.5 text-sm transition-all outline-none backdrop-blur-md">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-brand-light/50 font-bold mb-2">E-mail</label>
+                            <input type="email" id="inputEmail" required class="w-full bg-black/30 border border-white/10 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-white rounded-xl px-4 py-3.5 text-sm transition-all outline-none backdrop-blur-md">
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-brand-light/50 font-bold mb-2">Seu Segmento</label>
+                            <select id="inputSegmento" required class="w-full bg-black/30 border border-white/10 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-white rounded-xl px-4 py-3.5 text-sm transition-all outline-none backdrop-blur-md appearance-none">
+                                <option value="" disabled selected>Escolha sua área...</option>
+                                <option value="imobiliario">Imobiliário / Corretores</option>
+                                <option value="saude">Saúde / Clínicas</option>
+                                <option value="prestacao">Prestação de Serviços</option>
+                                <option value="consultoria">Consultorias</option>
+                                <option value="vendas">Vendas e Comércio</option>
+                                <option value="outros">Outros Negócios</option>
+                            </select>
+                        </div>
+
+                        <div class="pt-4">
+                            <button type="submit" class="w-full btn-glow font-extrabold text-sm tracking-widest uppercase py-4 rounded-xl flex items-center justify-center gap-2">
+                                ENVIAR APLICAÇÃO <i class="fa-solid fa-check"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Success State -->
+                    <div id="successState" class="hidden text-center py-12 flex flex-col items-center justify-center h-full">
+                        <div class="w-20 h-20 rounded-full glass-panel flex items-center justify-center text-brand-primary text-4xl mb-6 shadow-[0_0_30px_rgba(138,168,153,0.3)]">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h3 class="font-heading text-3xl font-bold text-white mb-3">Aplicação Recebida!</h3>
+                        <p class="text-brand-light/60 font-light max-w-sm mx-auto">
+                            Sua solicitação está em análise. Fique de olho no seu WhatsApp, nossa equipe enviará o link VIP em breve.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-24 px-4 relative overflow-hidden">
+        <div class="glow-orb-primary w-[800px] h-[400px] top-1/2 right-0 -translate-y-1/2 opacity-20 pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto relative z-10 reveal">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-widest text-brand-primary font-bold mb-4 block flex items-center justify-center gap-2">
+                    <span class="w-6 h-[1px] bg-brand-primary inline-block"></span> Dúvidas Frequentes <span class="w-6 h-[1px] bg-brand-primary inline-block"></span>
+                </span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-extrabold text-white">Ficou com alguma dúvida?</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="glass-panel border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-brand-primary/30">
+                    <button onclick="toggleFaq(1)" class="w-full px-8 py-6 text-left flex justify-between items-center gap-4 transition-colors">
+                        <span class="font-bold text-sm sm:text-base text-white">Quem deve participar do evento Do Lead ao Lucro?</span>
+                        <i id="faq-icon-1" class="fa-solid fa-plus text-brand-primary text-lg shrink-0 transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-answer-1" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <p class="px-8 pb-6 text-sm text-brand-light/70 font-light leading-relaxed">
+                            O evento é desenhado especificamente para empresários, diretores comerciais, profissionais liberais (como médicos, dentistas e advogados), corretores de imóveis e tomadores de decisão de negócios que já investem (ou querem começar a investir) em campanhas de anúncios digitais e buscam escalabilidade de vendas reais.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="glass-panel border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-brand-primary/30">
+                    <button onclick="toggleFaq(2)" class="w-full px-8 py-6 text-left flex justify-between items-center gap-4 transition-colors">
+                        <span class="font-bold text-sm sm:text-base text-white">Qual será o formato da imersão no Coco Bambu?</span>
+                        <i id="faq-icon-2" class="fa-solid fa-plus text-brand-primary text-lg shrink-0 transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-answer-2" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <p class="px-8 pb-6 text-sm text-brand-light/70 font-light leading-relaxed">
+                            Trata-se de um encontro presencial intimista e premium. Teremos uma palestra estratégica profunda de Wanderson Buarque, um painel comercial prático, abertura de dados reais de campanhas milionárias e muito networking acompanhado de coquetel premium no Coco Bambu Derby.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="glass-panel border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-brand-primary/30">
+                    <button onclick="toggleFaq(3)" class="w-full px-8 py-6 text-left flex justify-between items-center gap-4 transition-colors">
+                        <span class="font-bold text-sm sm:text-base text-white">Como garanto a minha vaga?</span>
+                        <i id="faq-icon-3" class="fa-solid fa-plus text-brand-primary text-lg shrink-0 transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-answer-3" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <p class="px-8 pb-6 text-sm text-brand-light/70 font-light leading-relaxed">
+                            Basta preencher o formulário de aplicação. Em seguida, caso seu perfil seja aprovado na triagem, nossa equipe entrará em contato com você via WhatsApp para validação final e emissão do seu convite de entrada devido ao número restrito de assentos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="glass-panel border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-brand-primary/30">
+                    <button onclick="toggleFaq(4)" class="w-full px-8 py-6 text-left flex justify-between items-center gap-4 transition-colors">
+                        <span class="font-bold text-sm sm:text-base text-white">Haverá algum tipo de mentoria individual?</span>
+                        <i id="faq-icon-4" class="fa-solid fa-plus text-brand-primary text-lg shrink-0 transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-answer-4" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <p class="px-8 pb-6 text-sm text-brand-light/70 font-light leading-relaxed">
+                            No final do evento, teremos um momento dedicado para perguntas e respostas diretas com o Wanderson, onde você poderá expor as principais travas e gargalos comerciais que o seu negócio enfrenta hoje para receber uma direção estratégica personalizada.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 py-8 px-4 glass-panel mt-20 rounded-none bg-black/50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <!-- Logo PIKO Footer -->
+            <div class="flex items-center justify-center h-10 w-32">
+                <img src="./PIKO 12.png" alt="PIKO Logo" class="w-full h-full object-contain scale-150 origin-center opacity-60 hover:opacity-100 transition-opacity">
+            </div>
+            <p class="text-[10px] text-brand-light/40 uppercase tracking-widest">
+                &copy; 2026 PIKO | By Wanderson Buarque
+            </p>
+            <div class="flex items-center gap-6 text-[10px] text-brand-light/40 uppercase tracking-widest">
+                <a href="#metodo" class="hover:text-brand-primary transition-colors">Método</a>
+                <a href="#local" class="hover:text-brand-primary transition-colors">Local</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- Countdown Timer Logic ---
+        // Altere a data aqui se o evento mudar (Formato: Mes Dia, Ano Hora:Minuto:Segundo)
+        const eventDateStr = "July 24, 2026 19:00:00";
+        const targetDate = new Date(eventDateStr).getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const daysElement = document.getElementById("days");
+            if (!daysElement) return;
+
+            if (difference < 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --- FAQ Toggle Logic ---
+        function toggleFaq(index) {
+            const answer = document.getElementById(`faq-answer-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            
+            if (answer.style.maxHeight && answer.style.maxHeight !== '0px') {
+                answer.style.maxHeight = '0px';
+                icon.style.transform = 'rotate(0deg)';
+                icon.classList.remove('text-white');
+                icon.classList.add('text-brand-primary');
+            } else {
+                // Close others
+                for (let i = 1; i <= 4; i++) {
+                    const otherAnswer = document.getElementById(`faq-answer-${i}`);
+                    const otherIcon = document.getElementById(`faq-icon-${i}`);
+                    if (otherAnswer) otherAnswer.style.maxHeight = '0px';
+                    if (otherIcon) {
+                        otherIcon.style.transform = 'rotate(0deg)';
+                        otherIcon.classList.remove('text-white');
+                        otherIcon.classList.add('text-brand-primary');
+                    }
+                }
+                
+                // Open selected
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                icon.style.transform = 'rotate(45deg)';
+                icon.classList.remove('text-brand-primary');
+                icon.classList.add('text-white');
+            }
+        }
+
+        // --- Form Submission (Integração WhatsApp) ---
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // 1. Coleta dos dados digitados
+            const nome = document.getElementById('inputNome').value;
+            const whatsapp = document.getElementById('inputWhatsapp').value;
+            const email = document.getElementById('inputEmail').value;
+            const objSegmento = document.getElementById('inputSegmento');
+            const segmento = objSegmento.options[objSegmento.selectedIndex].text;
+
+            // 2. Número de WhatsApp do Comercial 
+            // Número definido: +55 81 9932-7956
+            const numeroComercial = "558199327956"; 
+
+            // 3. Montagem da Mensagem
+            const mensagem = `Olá! Tenho interesse na Imersão Do Lead ao Lucro. Seguem os dados da minha aplicação:\n\n*Nome:* ${nome}\n*E-mail:* ${email}\n*WhatsApp:* ${whatsapp}\n*Segmento:* ${segmento}\n\nAguardo o retorno para os próximos passos.`;
+
+            // 4. Criação do Link
+            const linkWhatsApp = `https://wa.me/${numeroComercial}?text=${encodeURIComponent(mensagem)}`;
+
+            // 5. Animação de sucesso e Redirecionamento
+            const form = document.getElementById("leadForm");
+            const successState = document.getElementById("successState");
+            
+            form.style.transition = 'opacity 0.4s ease';
+            form.style.opacity = '0';
+            
+            setTimeout(() => {
+                form.classList.add("hidden");
+                successState.classList.remove("hidden");
+                successState.style.opacity = '0';
+                
+                setTimeout(() => {
+                    successState.style.transition = 'opacity 0.6s ease';
+                    successState.style.opacity = '1';
+                    
+                    // Redireciona o usuário para o WhatsApp após 1,5 segundos (tempo para ele ler a mensagem)
+                    setTimeout(() => {
+                        window.open(linkWhatsApp, '_blank');
+                    }, 1500);
+                    
+                }, 50);
+            }, 400);
+        }
+
+        // 2. Scroll Reveal Animations
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Trigger threshold
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on initial load
+
+        // 3. Parallax Effect for Mountain Background
+        window.addEventListener("scroll", function() {
+            var scrolled = window.scrollY;
+            var background = document.querySelector(".mountain-bg");
+            if (background) {
+                // Move the background image slowly as you scroll down
+                background.style.transform = "translateY(" + (scrolled * 0.4) + "px)";
+            }
+        });
+
+        // 4. Dynamic Mouse-Tracking Glow (Magnetic Light)
+        document.addEventListener('mousemove', function(e) {
+            // Calculate mouse position relative to center of screen
+            const x = (e.clientX / window.innerWidth - 0.5) * 80; // Max movement 80px
+            const y = (e.clientY / window.innerHeight - 0.5) * 80;
+            
+            // Set CSS variables so the CSS margin transition handles the smooth animation
+            document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}px`);
+        });
+    </script>
+</div>
+</body>
+</html>

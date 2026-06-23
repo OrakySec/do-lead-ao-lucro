@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  landing-page:
+    image: nginx:alpine
+    container_name: do-lead-ao-lucro
+    restart: always
+    volumes:
+      - /opt/do-lead-ao-lucro/html:/usr/share/nginx/html:ro
+    networks:
+      - YkaroNET
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.doleadaolucro.rule=Host(`wandersonbuarque.com.br`)"
+      - "traefik.http.routers.doleadaolucro.entrypoints=websecure"
+      - "traefik.http.routers.doleadaolucro.tls.certresolver=letsencryptresolver"
+      - "traefik.http.services.doleadaolucro.loadbalancer.server.port=80"
+
+networks:
+  YkaroNET:
+    external: true

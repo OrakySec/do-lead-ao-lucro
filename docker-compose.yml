@@ -2,11 +2,10 @@ version: '3.8'
 
 services:
   landing-page:
-    image: nginx:alpine
+    # Substitua abaixo com o SEU nome de usuário no GitHub e o nome que deu ao repositório
+    image: ghcr.io/SEU_USUARIO_GITHUB/NOME_DO_REPOSITORIO:latest
     container_name: do-lead-ao-lucro
     restart: always
-    volumes:
-      - /opt/do-lead-ao-lucro/html:/usr/share/nginx/html:ro
     networks:
       - YkaroNET
     labels:

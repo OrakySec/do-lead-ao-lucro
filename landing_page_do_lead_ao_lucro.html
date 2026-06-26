@@ -10,6 +10,24 @@
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1497102612432380');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1497102612432380&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
     
     <script>
         tailwind.config = {
@@ -726,6 +744,11 @@
             // 2. Número de WhatsApp do Comercial 
             // Número definido: +55 81 9932-7956
             const numeroComercial = "558199327956"; 
+
+            // 2.1 Dispara evento de Conversão no Meta Pixel
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Contact');
+            }
 
             // 3. Montagem da Mensagem
             const mensagem = `Olá! Tenho interesse na Imersão Do Lead ao Lucro. Seguem os dados da minha aplicação:\n\n*Nome:* ${nome}\n*E-mail:* ${email}\n*WhatsApp:* ${whatsapp}\n*Segmento:* ${segmento}\n\nAguardo o retorno para os próximos passos.`;

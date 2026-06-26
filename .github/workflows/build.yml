@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Images
 
 on:
   push:
@@ -7,7 +7,10 @@ on:
       - master
 
 jobs:
-  build-and-push:
+  # ─────────────────────────────────────────────
+  # Build 1: Landing Page (Nginx)
+  # ─────────────────────────────────────────────
+  build-landing-page:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -17,7 +20,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Autentica no GitHub Container Registry
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
@@ -25,8 +27,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Pega os metadados e tags pro Docker
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract metadata for Landing Page
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -35,11 +36,49 @@ jobs:
             type=raw,value=latest
             type=sha
 
-      # Constroi a imagem e joga pro GitHub Registry
-      - name: Build and push Docker image
+      - name: Build and push Landing Page image
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  # ─────────────────────────────────────────────
+  # Build 2: CAPI Service (Node.js)
+  # ─────────────────────────────────────────────
+  build-capi-service:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for CAPI Service
+        id: meta-capi
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}-capi
+          tags: |
+            type=raw,value=latest
+            type=sha
+
+      - name: Build and push CAPI Service image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./capi-service
+          file: ./capi-service/Dockerfile
+          push: true
+          tags: ${{ steps.meta-capi.outputs.tags }}
+          labels: ${{ steps.meta-capi.outputs.labels }}

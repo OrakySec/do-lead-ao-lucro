@@ -730,7 +730,15 @@
             }
         }
 
-        // --- Form Submission (Integração WhatsApp) ---
+        // --- Helpers de Cookie e URL Params ---
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // --- Form Submission (Integração WhatsApp + CAPI) ---
         function handleFormSubmit(event) {
             event.preventDefault();
             
@@ -745,9 +753,34 @@
             // Número definido: +55 81 9932-7956
             const numeroComercial = "558199327956"; 
 
-            // 2.1 Dispara evento de Conversão no Meta Pixel
+            // 2.1 Dispara evento no Meta Pixel (browser-side)
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Contact');
+            }
+
+            // 2.2 Dispara evento na API de Conversões (server-side)
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const fbclid = urlParams.get('fbclid');
+                const fbc = getCookie('_fbc') || (fbclid ? `fb.1.${Date.now()}.${fbclid}` : null);
+                const fbp = getCookie('_fbp');
+
+                fetch('/api/conversion', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        eventName: 'Contact',
+                        eventSourceUrl: window.location.href,
+                        email: email,
+                        phone: whatsapp,
+                        fbc: fbc,
+                        fbp: fbp,
+                    }),
+                }).then(r => r.json())
+                  .then(d => console.log('[CAPI] Resposta:', d))
+                  .catch(e => console.warn('[CAPI] Falha (não crítico):', e));
+            } catch(e) {
+                console.warn('[CAPI] Erro ao montar requisição:', e);
             }
 
             // 3. Montagem da Mensagem

@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  capi-service:
+    image: ghcr.io/orakysec/do-lead-ao-lucro-capi:latest
+    container_name: do-lead-ao-lucro-capi
+    restart: always
+    environment:
+      - PIXEL_ID=1497102612432380
+      - ACCESS_TOKEN=EAAWjCd8HphkBRZByEZCWU4fJMnxYJj9EA1IV9BZBXxGN7scVjG5UB9TVq8OtAJbofN12GKySsWsZBZAi2sUyuyBUAjH4DZByEI9LzQW5WT223ZAHCtWL6zSZCEWPZC9QYKQ9HnUpXsqjjZAIvxCXAiGEK6G5VzxW94DIZCi6TeoClySGIjnPr0IkocHsYI8KCUKNmPzMAZDZD
+      - PORT=3000
+    networks:
+      - YkaroNET
+    labels:
+      - "traefik.enable=true"
+      # Rota com PathPrefix /api/ — prioridade MAIOR que o nginx (que pega tudo)
+      - "traefik.http.routers.doleadaolucro-capi.rule=Host(`wandersonbuarque.com.br`) && PathPrefix(`/api/`)"
+      - "traefik.http.routers.doleadaolucro-capi.entrypoints=websecure"
+      - "traefik.http.routers.doleadaolucro-capi.tls.certresolver=letsencryptresolver"
+      - "traefik.http.routers.doleadaolucro-capi.priority=10"
+      - "traefik.http.services.doleadaolucro-capi.loadbalancer.server.port=3000"
+
+networks:
+  YkaroNET:
+    external: true
